@@ -1,0 +1,13 @@
+{
+    "junbeumc" : {
+        "userid": 729,
+        "name": "junbeumcho",
+        "password": "junbeumcpass"
+    },
+
+    "davidk" : {
+        "userid": 333,
+        "name": "davidkim",
+        "password": "davidkpass"
+    }
+}

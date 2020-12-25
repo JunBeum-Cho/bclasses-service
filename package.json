@@ -1,0 +1,13 @@
+{
+  "name": "bclasses-service",
+  "version": "1.0.0",
+  "description": "bclasses online service",
+  "main": "index.js",
+  "scripts": {
+    "port": "sudo iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080",
+    "start": "yarn port && cd client && yarn && rm -rf build && yarn build && cd ../server && yarn && npx tsc && pm2 start dist/index.js",
+    "dev": "cd server && npx ts-node index.ts"
+  },
+  "author": "JunBeum-Cho",
+  "license": "MIT"
+}

@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+      "target": "ES5",
+      "module": "CommonJS",
+      "outDir": "./dist",
+      "esModuleInterop": true,
+      "resolveJsonModule": true
+    },
+    "include": ["**/*.ts", "controllers"],
+    "exclude": ["node_modules"]
+  }
