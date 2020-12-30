@@ -6,7 +6,7 @@ import Login from "./Login";
 import Authcheck from "./Authcheck"
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-// import store from './data_store';
+import store from './redux/store';
 import {Provider} from 'react-redux'
 
 ReactDOM.render(

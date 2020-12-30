@@ -102,8 +102,8 @@ export class AutocompleteCoursesTextField extends React.Component<CourseTextFiel
     this.setState({...this.state, dept:newValue, dept_chosen:true})
   }
 
-  handleCourseText = (event: any, newValue: CourseTextBox | null) => {
-    this.setState({...this.state, courseid:newValue?.id, course_chosen:true})
+  handleCourseText = (event: any, newValue: CourseTextBox | any) => {
+    this.setState({...this.state, courseid: newValue?.id, course_chosen: true})
   }
 
   handleCreate = () => {

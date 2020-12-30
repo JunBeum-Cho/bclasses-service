@@ -3,10 +3,10 @@ import React from "react";
 import Axios from 'axios'
 import { Route, Redirect } from "react-router-dom"
 import cookies from "js-cookie"
+import store from "./redux/store"
 
 export class Login extends React.Component {
   state = {
-    auth: false,
     id: "",
     password: "",
   };
@@ -38,6 +38,10 @@ export class Login extends React.Component {
   }
 
   handleOnclick = () => {
+    console.log(1, store.getState())
+    console.log(2, store.getState().list)
+    console.log(3, store.getState().login)
+
     Axios.post("/login", {id: this.state.id, password: this.state.password})
     .then( response => { 
       console.log("로그인 status: ", response); 

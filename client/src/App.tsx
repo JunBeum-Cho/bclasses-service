@@ -6,31 +6,9 @@ import { addItem, login, loginCheck } from "./api"
 import { Route, Redirect } from "react-router-dom"
 import Axios from 'axios'
 import cookies from "js-cookie"
-import { TramRounded } from '@material-ui/icons';
+import store from "./redux/store"
 
 class App extends React.Component {
-  state = {
-    auth: true,
-    number: 0,
-    bclasses: [{
-      name: "Example List",
-      data: [{
-        course_validation: true,
-        is_offered: true,
-        courseid: 1,
-        course_title: "Example Class",
-        course_subtitle: "Introduction to Example",
-        currently_enrolled: "100",
-        max_enrolled: "150",
-        currently_waitlisted: "0",
-        max_waitlisted: " 50",
-        total_class_grade: "3.6",
-        recent_section_grade: "3.5",
-        recent_section_period: "spring 2020"
-      }]
-    }]
-  }
-
   componentDidMount() {
   //   Axios.get('/login/auth')
   //   .then( response => { console.log("123123", response); } ) // SUCCESS
@@ -40,20 +18,18 @@ class App extends React.Component {
     // .then( response => { console.log("123123", response); } ) // SUCCESS
     // .catch( error => { console.log("123123", error); } ); // ERROR
     if(!cookies.get("authtoken")) {
-      this.setState({auth:false})
+      store.dispatch({type: "LOGOUT"})
     }
-    console.log("123123",cookies.get("authtoken"))
-    console.log(this.state)
   }
 
   render() {
-    console.log(this.state)
+    let state = store.getState()
     return (
-      !this.state.auth
+      ! state.login.auth
       ? <Redirect to="/login"/>
       : <Route>
           <div id="cluster">
-              <h1>hi{this.state.auth}</h1>
+              <h1>hi{state.login.auth}</h1>
               <button onClick={this.handleLogout}>logout button</button>
               {this.renderbclasses()}
               {this.renderaddlist()}
@@ -63,7 +39,8 @@ class App extends React.Component {
   }
 
   renderbclasses() {
-    const { bclasses } = this.state
+    let state = store.getState()
+    const bclasses = state?.list.bclasses
     return bclasses.map(
       (bclass, index) => (
       <Table 
@@ -77,7 +54,8 @@ class App extends React.Component {
   }
 
   handleAddData = (tableName, courseid) => {
-    const {bclasses} = this.state
+    let state = store.getState()
+    const bclasses = state?.list.bclasses
     const example = {
       course_validation: true,
       is_offered: true,
@@ -101,6 +79,7 @@ class App extends React.Component {
         return bclass
       }
     })
+    store.dispatch({type: "ADD_ITEM", })
     this.setState({...this.state, bclasses: updated_bclasses})
   }
 
@@ -116,7 +95,8 @@ class App extends React.Component {
   }
 
   handleRemoveData = (tableName, courseid) => {
-    const {bclasses} = this.state
+    let state = store.getState()
+    const bclasses = state?.list.bclasses
 
     const updated_bclasses = bclasses.map((bclass) => {
       if(bclass.name === tableName){
@@ -131,12 +111,16 @@ class App extends React.Component {
   }
 
   addlist_onClick = () => {
-    const { number, bclasses } = this.state
+    let state = store.getState()
+    const number = state?.list.number
+    const bclasses = state?.list.bclasses
+
     this.setState({number: number+1, bclasses: [...bclasses.concat({name: `New list_${number}`, data: []})]})
   }
 
   handleTableName = (tableName, newtableName) => {
-    const newbclasses = this.state.bclasses.map((bclass) => {
+    let state = store.getState()
+    const newbclasses = state.list.bclasses.map((bclass) => {
       if(bclass.name === tableName) {
         return {name: newtableName, data: [...bclass.data]}
       } else {
@@ -146,7 +130,6 @@ class App extends React.Component {
 
     this.setState({...this.state, bclasses: newbclasses})
   }
-
 }
 
 export default App
